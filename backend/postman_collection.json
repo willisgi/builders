@@ -1,0 +1,89 @@
+{
+  "info": {
+    "name": "KenyaPOS API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {"method": "GET", "url": "http://localhost:8000/health"}
+    },
+    {
+      "name": "Auth Login",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/auth/login",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "body": {"mode": "raw", "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin123\"\n}"}
+      }
+    },
+    {
+      "name": "List Products",
+      "request": {"method": "GET", "url": "http://localhost:8000/products/"}
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/products/",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sku\": \"P010\",\n  \"name\": \"Milk 500ml\",\n  \"price\": 60,\n  \"cost_price\": 50,\n  \"stock_quantity\": 40\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Sale",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/sales/",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2,\n      \"unit_price\": 250\n    }\n  ],\n  \"discount\": 0\n}"
+        }
+      }
+    },
+    {
+      "name": "M-Pesa STK Push",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/mpesa/stk",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phone_number\": \"254700000000\",\n  \"amount\": 100,\n  \"account_reference\": \"POS\",\n  \"transaction_desc\": \"Sale payment\"\n}"
+        }
+      }
+    }
+    ,
+    {
+      "name": "M-Pesa Verify",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/mpesa/verify",
+        "header": [
+          {"key": "Content-Type", "value": "application/json"},
+          {"key": "Authorization", "value": "Bearer {{token}}"}
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"checkout_request_id\": \"<from_stk_response>\"\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {"key": "token", "value": ""}
+  ]
+}
